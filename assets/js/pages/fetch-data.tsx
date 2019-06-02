@@ -75,6 +75,7 @@ export default class FetchDataPage extends React.Component<
         </p>
         {content}
         <br />
+          <Link to="/add-language">Add Language</Link>
         <br />
         <p>
           <Link to="/">Back to home</Link>
