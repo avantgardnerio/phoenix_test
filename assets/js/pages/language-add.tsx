@@ -24,7 +24,16 @@ export default class FetchDataPage extends React.Component<
     };
 
     private save = () => {
-        fetch('/api/languages', {method: 'post'})
+        const json = JSON.stringify({language: {name: this.state.name, proverb: this.state.proverb}});
+        const options = {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: json
+        };
+        fetch('/api/languages', options)
             .then(res => res.json())
             .then(res => {
                 // TODO: check result
