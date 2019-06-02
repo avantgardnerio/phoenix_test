@@ -66,6 +66,14 @@ export default class LanguageEditPage extends React.Component<any, ExampleState>
             });
     };
 
+    private delete = () => {
+        fetch(`/api/languages/${this.state.language.id}`, { method: 'delete' })
+            .then(res => {
+                // TODO: check result
+                this.setState({...this.state, saved: true});
+            });
+    };
+
     public render(): JSX.Element {
         if(this.state.saved) {
             return <Redirect to='/fetch-data' />;
@@ -82,6 +90,7 @@ export default class LanguageEditPage extends React.Component<any, ExampleState>
                     <input id="proverb" type="text" onChange={this.change} value={this.state.language.proverb}/>
                 </p>
                 <button onClick={this.save}>Save</button>
+                <button onClick={this.delete}>Delete</button>
             </Main>
         );
     }
