@@ -6,6 +6,7 @@ import HomePage from './pages';
 import CounterPage from './pages/counter';
 import FetchDataPage from './pages/fetch-data';
 import AddLanguagePage from './pages/language-add';
+import LanguageEditPage from "./pages/language-edit";
 
 const Root: React.FC = () => (
     <>
@@ -16,6 +17,7 @@ const Root: React.FC = () => (
                 <Route path="/counter" component={CounterPage}/>
                 <Route path="/fetch-data" component={FetchDataPage}/>
                 <Route path="/add-language" component={AddLanguagePage}/>
+                <Route path="/languages/:id" component={LanguageEditPage}/>
             </Switch>
         </BrowserRouter>
     </>

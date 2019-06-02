@@ -9,7 +9,7 @@ interface ExampleState {
     saved: boolean
 }
 
-export default class FetchDataPage extends React.Component<
+export default class LanguageAddPage extends React.Component<
     {},
     ExampleState
     > {
@@ -43,7 +43,7 @@ export default class FetchDataPage extends React.Component<
 
     public render(): JSX.Element {
         if(this.state.saved) {
-            return <Redirect to='/' />;
+            return <Redirect to='/fetch-data' />;
         }
         return (
             <Main>

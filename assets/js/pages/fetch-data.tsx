@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import Main from '../components/Main';
 
@@ -18,6 +18,7 @@ interface Language {
 interface FetchDataExampleState {
   languages: Language[];
   loading: boolean;
+  selectedId?: number;
 }
 
 export default class FetchDataPage extends React.Component<
@@ -26,7 +27,7 @@ export default class FetchDataPage extends React.Component<
 > {
   constructor(props: {}) {
     super(props);
-    this.state = { languages: [], loading: true };
+    this.state = { languages: [], loading: true, selectedId: undefined };
 
     // Get the data from our API.
     fetch('/api/languages')
@@ -36,7 +37,11 @@ export default class FetchDataPage extends React.Component<
       });
   }
 
-  private static renderLanguagesTable(languages: Language[]) {
+  private selectItem(language: Language) {
+      this.setState({...this.state, selectedId: language.id});
+  };
+
+  private renderLanguagesTable(languages: Language[]) {
     return (
       <table>
         <thead>
@@ -47,7 +52,7 @@ export default class FetchDataPage extends React.Component<
         </thead>
         <tbody>
           {languages.map(language => (
-            <tr key={language.id}>
+            <tr key={language.id} onClick={() => this.selectItem(language)}>
               <td>{language.name}</td>
               <td>{language.proverb}</td>
             </tr>
@@ -57,15 +62,21 @@ export default class FetchDataPage extends React.Component<
     );
   }
 
-  public render(): JSX.Element {
-    const content = this.state.loading ? (
-      <p>
-        <em>Loading...</em>
-      </p>
-    ) : (
-      FetchDataPage.renderLanguagesTable(this.state.languages)
-    );
+  get content() {
+      if(this.state.loading) {
+          return (
+              <p>
+                  <em>Loading...</em>
+              </p>
+          )
+      }
+      if(this.state.selectedId) {
+          return <Redirect to={`/languages/${this.state.selectedId}`}/>
+      }
+      return this.renderLanguagesTable(this.state.languages);
+  }
 
+  public render(): JSX.Element {
     return (
       <Main>
         <h1>Fetch Data</h1>
@@ -73,7 +84,7 @@ export default class FetchDataPage extends React.Component<
           This component demonstrates fetching data from the Phoenix API
           endpoint.
         </p>
-        {content}
+        {this.content}
         <br />
           <Link to="/add-language">Add Language</Link>
         <br />
